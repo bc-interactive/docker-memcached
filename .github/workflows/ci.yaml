@@ -11,8 +11,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: |
-      echo "{{ DOCKERHUB_TOKEN }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
-      IMAGE_NAME="bcinteractive/memcached"
-      IMAGE_TAG="$(git rev-parse --short HEAD)"
-      DOCKER_BUILDKIT=1 docker build --tag "${IMAGE_NAME}:${IMAGE_TAG}" .
-      docker push "${IMAGE_NAME}:${IMAGE_TAG}"
+        echo "{{ DOCKERHUB_TOKEN }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+        BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+        IMAGE_NAME="bcinteractive/memcached"
+        IMAGE_TAG="$(git rev-parse --short HEAD)"
+        DOCKER_BUILDKIT=1 docker build \
+          --build-arg "BUILD_DATE=${BUILD_DATE}" \
+          --build-arg "VCS_REF=${IMAGE_TAG}" \
+          --tag "${IMAGE_NAME}:${IMAGE_TAG}"
+          .
+        docker push "${IMAGE_NAME}:${IMAGE_TAG}"
