@@ -18,6 +18,6 @@ jobs:
         DOCKER_BUILDKIT=1 docker build \
           --build-arg "BUILD_DATE=${BUILD_DATE}" \
           --build-arg "VCS_REF=${IMAGE_TAG}" \
-          --tag "${IMAGE_NAME}:${IMAGE_TAG}"
+          --tag "${IMAGE_NAME}:${IMAGE_TAG}" \
           .
         docker push "${IMAGE_NAME}:${IMAGE_TAG}"
