@@ -11,7 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: |
-        echo "{{ secrets.DOCKERHUB_TOKEN }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+        echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
         BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%SZ")"
         IMAGE_NAME="bcinteractive/memcached"
         IMAGE_TAG="$(git rev-parse --short HEAD)"
